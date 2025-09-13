@@ -1,5 +1,6 @@
 from textnode import *
 from htmlnode import *
+from blocks import *
 
 import re
 
@@ -64,15 +65,18 @@ def split_nodes_image(old_nodes):
         else:
             text = n.text
             matches = extract_markdown_images(n.text)
-            for m in range(len(matches)):
-                match = f'![{matches[m][0]}]({matches[m][1]})'
-                splitString = text.split(match, 1)
-                text = splitString[1]
-                if splitString[0] != '':
-                    newNodes.append(TextNode(splitString[0], TextType.TEXT))
-                newNodes.append(TextNode(matches[m][0], TextType.IMAGE, matches[m][1]))
-                if m == len(matches)-1 and text != '':
-                    newNodes.append(TextNode(text, TextType.TEXT))
+            if len(matches) == 0:
+                newNodes.append(n)
+            else:
+                for m in range(len(matches)):
+                    match = f'![{matches[m][0]}]({matches[m][1]})'
+                    splitString = text.split(match, 1)
+                    text = splitString[1]
+                    if splitString[0] != '':
+                        newNodes.append(TextNode(splitString[0], TextType.TEXT))
+                    newNodes.append(TextNode(matches[m][0], TextType.IMAGE, matches[m][1]))
+                    if m == len(matches)-1 and text != '':
+                        newNodes.append(TextNode(text, TextType.TEXT))
     return newNodes
 
 
@@ -84,24 +88,51 @@ def split_nodes_link(old_nodes):
         else:
             text = n.text
             matches = extract_markdown_links(n.text)
-            for m in range(len(matches)):
-                match = f'[{matches[m][0]}]({matches[m][1]})'
-                splitString = text.split(match, 1)
-                text = splitString[1]
-                if splitString[0] != '':
-                    newNodes.append(TextNode(splitString[0], TextType.TEXT))
-                newNodes.append(TextNode(matches[m][0], TextType.LINK, matches[m][1]))
-                if m == len(matches)-1 and text != '':
-                    newNodes.append(TextNode(text, TextType.TEXT))
+            if len(matches) == 0:
+                newNodes.append(n)
+            else:
+                for m in range(len(matches)):
+                    match = f'[{matches[m][0]}]({matches[m][1]})'
+                    splitString = text.split(match, 1)
+                    text = splitString[1]
+                    if splitString[0] != '':
+                        newNodes.append(TextNode(splitString[0], TextType.TEXT))
+                    newNodes.append(TextNode(matches[m][0], TextType.LINK, matches[m][1]))
+                    if m == len(matches)-1 and text != '':
+                        newNodes.append(TextNode(text, TextType.TEXT))
     return newNodes
 
 def text_to_textnodes(text):
-    pass
-
+    nodes = []
+    for i in TextType:
+        if i == TextType.TEXT:
+            nodes.append(TextNode(text, i))
+        if i == TextType.BOLD:
+            nodes = split_nodes_delimiter(nodes, "**", i)
+        if i == TextType.ITALIC:
+            nodes = split_nodes_delimiter(nodes, "_", i)
+        if i == TextType.CODE:
+            nodes = split_nodes_delimiter(nodes, "`", i)
+        if i == TextType.LINK:
+            nodes = split_nodes_link(nodes)
+        if i == TextType.IMAGE:
+            nodes = split_nodes_image(nodes)
+    return nodes
 
 def main():
-    text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
-    result = text_to_textnodes(text)
-    print(result)
+    md = """
+# This is a heading
+
+This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+
+- This is the first list item in a list block
+- This is a list item
+- This is another list item
+"""
+
+    result = markdown_to_blocks(md)
+    for i in result:
+        x = block_to_block_type(i)
+        print(x)
 
 main()
