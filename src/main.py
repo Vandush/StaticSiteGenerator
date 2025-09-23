@@ -1,13 +1,32 @@
 from textnode import TextType, TextNode
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 def main():
-    node = LeafNode("p", "This is a paragraph of text.")
+    grandchildren = [
+        LeafNode("b", "Bold text"),
+        LeafNode(None, "Normal text"),
+        LeafNode("i", "italic text"),
+        LeafNode(None, "Normal text"),
+    ]
+    node = ParentNode(
+        "p",
+        [
+            LeafNode("b", "Bold text"),
+            LeafNode(None, "Normal text"),
+            LeafNode("i", "italic text"),
+            ParentNode("div", grandchildren, {"href": "https://www.google.com"}),
+            LeafNode(None, "Normal text"),
+        ],
+    )
+
     print(node.to_html())
 
-    node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
-    print(node.to_html())
-    print(node.__repr__())
+    #node = LeafNode("p", "This is a paragraph of text.")
+    #print(node.to_html())
+
+    #node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+    #print(node.to_html())
+    #print(node.__repr__())
     
     #props = {
     #"href": "https://www.google.com",
