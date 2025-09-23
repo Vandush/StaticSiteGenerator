@@ -1,7 +1,11 @@
 from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
+from textnode_to_htmlnode import text_node_to_html_node
+
 def main():
+    print(text_node_to_html_node())
+    '''
     grandchildren = [
         LeafNode("b", "Bold text"),
         LeafNode(None, "Normal text"),
@@ -20,7 +24,7 @@ def main():
     )
 
     print(node.to_html())
-
+    '''
     #node = LeafNode("p", "This is a paragraph of text.")
     #print(node.to_html())
 
