@@ -4,7 +4,14 @@ from htmlnode import HTMLNode, LeafNode, ParentNode
 from textnode_to_htmlnode import text_node_to_html_node
 
 def main():
-    print(text_node_to_html_node())
+
+    '''
+    node = TextNode('This is some anchor text', 'image', 'https://www.boot.dev')
+    print(node.__repr__())
+    x = text_node_to_html_node(node)
+    print(x)
+    print(x.to_html())
+    '''
     '''
     grandchildren = [
         LeafNode("b", "Bold text"),
