@@ -2,9 +2,28 @@ from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 from textnode_to_htmlnode import text_node_to_html_node
+from markdown_to_textnode import split_nodes_delimiter
 
 def main():
-
+    node = TextNode("This is a node with **bold** and _itlaic_ and `code`.", 'text')
+    nodes = [node]
+    delimiters = {
+        '_': 'italic',
+        '`': 'code',
+        '**': 'bold',
+    }
+    for delimiter in delimiters:
+        text_type = delimiters[delimiter]
+        nodes = split_nodes_delimiter(nodes, delimiter, text_type)
+    for i in nodes:
+        print(i)
+    '''
+    nodeOne = TextNode("`This` is text with a `code block` and another `second code block`.", TextType.TEXT)
+    nodeTwo = TextNode("Second ndoe with a single `code block`", 'text')
+    nodeThree = TextNode("Third without any code block", 'text')
+    new_nodes = split_nodes_delimiter([nodeOne, nodeTwo, nodeThree], "`", TextType.CODE)
+    print(new_nodes)
+    '''
     '''
     node = TextNode('This is some anchor text', 'image', 'https://www.boot.dev')
     print(node.__repr__())
