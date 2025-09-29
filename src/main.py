@@ -2,7 +2,7 @@ from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 from textnode_to_htmlnode import text_node_to_html_node
-from markdown_to_textnode import (
+from inline_markdown_to_textnode import (
     split_nodes_delimiter, 
     extract_markdown_images, 
     extract_markdown_links,
@@ -10,12 +10,47 @@ from markdown_to_textnode import (
     split_nodes_image,
     text_to_textnodes,
 )
+from markdown_to_blocks import (
+    BlockType,
+    markdown_to_blocks,
+    block_to_blocktype,
+)
 
 def main():
+    md = '''
+#### Heading
+
+####### Technically not a heading
+
+        ```
+Code block
+        ```
+
+- unordered list
+- second
+- third
+
+> quote
+>second quote with no starting space
+
+1. ordered list
+2. second
+3. third
+    '''    
+    blocks = markdown_to_blocks(md)
+    types = []
+    print(blocks)
+    for block in blocks:
+        x = block_to_blocktype(block)
+        types.append(x.value)
+    print(types)
+
+    '''
     text = "This is a string with **bold characters**, and _italic characters_, as well as `hacker code`, a link [to boot dev](https://www.boot.dev) and an image of and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
     nodes = text_to_textnodes(text)
     for node in nodes:
         print(node)
+    '''
     '''
     text = 'This is text without any links or images.'
     #text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev) This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
