@@ -1,5 +1,5 @@
 import unittest
-from textnode_to_htmlnode import text_node_to_html_node
+from textnode_to_htmlnode import text_node_to_html_node, textNodesToHTMLNodes 
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, LeafNode, ParentNode
 

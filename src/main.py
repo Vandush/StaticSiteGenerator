@@ -1,7 +1,7 @@
 from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
-from textnode_to_htmlnode import text_node_to_html_node
+from textnode_to_htmlnode import textNodesToHTMLNodes #text_node_to_html_node
 from inline_markdown_to_textnode import (
     split_nodes_delimiter, 
     extract_markdown_images, 
@@ -15,35 +15,49 @@ from markdown_to_blocks import (
     markdown_to_blocks,
     block_to_blocktype,
 )
+from markdown_to_htmlnode import markdown_to_html_node
+
+md = """
+#### This is a Header
+
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
 
 def main():
-    md = '''
+    print(markdown_to_html_node(md))
+    
+#    md = '''
 #### Heading
 
 ####### Technically not a heading
 
-        ```
-Code block
-        ```
+#        ```
+#Code block
+#        ```
 
-- unordered list
-- second
-- third
+#- unordered list
+#- second
+#- third
 
-> quote
->second quote with no starting space
+#> quote
+#>second quote with no starting space
 
-1. ordered list
-2. second
-3. third
-    '''    
-    blocks = markdown_to_blocks(md)
-    types = []
-    print(blocks)
-    for block in blocks:
-        x = block_to_blocktype(block)
-        types.append(x.value)
-    print(types)
+#1. ordered list
+#2. second
+#3. third
+#    '''    
+#    blocks = markdown_to_blocks(md)
+#    types = []
+#    print(blocks)
+#    for block in blocks:
+#        x = block_to_blocktype(block)
+#        types.append(x.value)
+#    print(types)
 
     '''
     text = "This is a string with **bold characters**, and _italic characters_, as well as `hacker code`, a link [to boot dev](https://www.boot.dev) and an image of and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"

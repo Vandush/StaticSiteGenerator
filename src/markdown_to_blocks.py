@@ -46,3 +46,4 @@ def block_to_blocktype(block):
             x += 1
         return BlockType.ORDERED_LIST
     return BlockType.PARAGRAPH
+

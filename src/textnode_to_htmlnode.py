@@ -16,4 +16,9 @@ def text_node_to_html_node(text_node):
         return LeafNode('a', text_node.text, {'href': text_node.url})
     if text_node.textType == TextType.IMAGE:
         return LeafNode('img', '', {'src': text_node.url, 'alt': text_node.text})
-    return 'AHHHHH'
+
+def textNodesToHTMLNodes(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        new_nodes.append(text_node_to_html_node(node))
+    return new_nodes
